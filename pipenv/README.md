@@ -1,4 +1,4 @@
-# Pipenv
+# Pipenv V/S Pyenv
 
 `pipenv` is a tool that helps manage Python project dependencies and virtual environments. It aims to bring the best of all packaging worlds (bundled dependencies, development dependencies, etc.) to the Python world.
 
@@ -415,3 +415,59 @@ To achieve a workflow similar to `.nvmrc` with nvm for Node.js but using pyenv a
 - Pipenv does not install Python versions; it uses the versions that are already installed on your system.
 - To automate Python version management similar to .nvmrc, you should use pyenv in conjunction with Pipenv.
 
+
+
+# Ensuring `pyenv` Reads the `.python-version` File
+
+To ensure `pyenv` reads the `.python-version` file correctly and switches to the specified Python version, follow these steps:
+
+## 1. Set the Local Python Version
+
+Ensure that the `.python-version` file exists in your project directory and contains the correct Python version. 
+
+```sh
+pyenv local 3.9.1
+```
+
+This command will create or overwrite the `.python-version` file with the specified Python version.
+
+## 2. Check Current Version
+
+Verify that `pyenv` is reading the `.python-version` file correctly by checking the current Python version with `pyenv version`. 
+
+```sh
+pyenv version
+```
+
+This command should output the Python version specified in the `.python-version` file.
+
+## 3. Initialize `pyenv` in Your Shell
+
+Make sure your shell configuration file (e.g., `.bashrc`, `.zshrc`, or `.profile`) initializes `pyenv` correctly. Add the following lines if they are not already present:
+
+```sh
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"  # If you use pyenv-virtualenv
+```
+
+
+After adding these lines, reload your shell configuration by sourcing the configuration file (e.g., `source ~/.bashrc`).
+
+## 4. Rehash `pyenv`
+
+Sometimes, rehashing `pyenv` can help ensure it recognizes changes. Run `pyenv rehash` to rehash `pyenv`.
+
+```sh
+pyenv rehash
+```
+
+## 5. Debugging with Verbose Output
+
+If `pyenv` still doesn’t read the `.python-version` file, you can use the debug mode to get more information by running `PYENV_DEBUG=1 pyenv version`.
+
+By following these steps, you can ensure `pyenv` correctly reads the `.python-version` file and uses the specified Python version for your project. If issues persist, double-check your installation and shell configuration to ensure everything is set up correctly.
+```sh
+PYENV_DEBUG=1 pyenv version
+```
